@@ -9,72 +9,62 @@ end --if
 
 
 
-local xHome = 0
-local zHome = 0
-local yHome = 0
+local home = {}
+
 local xmax = nil
 local zmax = nil
 local ymin = nil
 	
-local function goHome()
-  dig.gotoy(xHome)
-  dig.gotoy(zHome)
-  dig.goto(xHome,yHome,zHome,180)
-end
 
 if fs.exists("home.txt") then
 	local homefile = fs.open("home.txt","r")
-	xHome = tonumber(homefile.readLine())
-	yHome = tonumber(homefile.readLine())
-	zHome = tonumber(homefile.readLine())
+	home[1] = tonumber(homefile.readLine())
+	home[2] = tonumber(homefile.readLine())
+	home[3] = tonumber(homefile.readLine())
+	home[4] = 180
+	home[5] = "?"
 	homefile.close()
 
 end --if
 
 if args[1] == "home" then
 	flex.send("Home loaded: "
-	..tostring(xHome)
+	..tostring(home[1])
 	.." , "
-	..tostring(yHome)
+	..tostring(home[2])
 	.." , "
-	..tostring(zHome)
+	..tostring(home[3])
 	)
 	dig.loadCoords()
-	goHome()
+	dig.goto(home)
 	
 	return
 elseif args[1] == "resume" then
-	flex.send("Home loaded: "
-	..tostring(xHome)
-	.." , "
-	..tostring(yHome)
-	.." , "
-	..tostring(zHome)
-	)
 	dig.loadCoords()
 	xmax = tonumber(args[2])
 	zmax = tonumber(args[3]) or xmax
 	ymin = tonumber(args[4]) or 999
 	flex.send("Home loaded: "
-	..tostring(xHome)
+	..tostring(home[1])
 	.." , "
-	..tostring(yHome)
+	..tostring(home[2])
 	.." , "
-	..tostring(zHome)
+	..tostring(home[3])
 	)
 elseif args[1] == "sethome" then
 	if #args < 4 then
 		flex.send("Usage quarry sethome <x> <y> <z>",colors.lightBlue)
 		return
 	end --if
-	local xHome = tonumber(args[2]) or 0
-	local yHome = tonumber(args[3]) or 0
-	local zHome = tonumber(args[4]) or 0
+	local home[1] = tonumber(args[2]) or 0
+	local home[2] = tonumber(args[3]) or 0
+	local home[3] = tonumber(args[4]) or 0
 	local homefile = fs.open("home.txt","w")
-	homefile.writeLine(tostring(xHome))
-	homefile.writeLine(tostring(yHome))
-	homefile.writeLine(tostring(zHome))
+	for x=1,#loc do
+		homefile.writeLine(tostring(home[x]))
+	end --for
 	homefile.close()
+
 	flex.send("Home set: "
 	..tostring(xHome)
 	.." , "
@@ -167,7 +157,7 @@ end --while
  if fuelLevel <= requiredFuel then
 	loc = dig.location()
 	flex.send("Fuel low; returning to home",colors.yellow)
-	goHome()
+	dig.goto(home)
 	dropNotFuel()
 	flex.send("Waiting for fuel...",colors.orange)
   while turtle.getFuelLevel()-1 <= requiredFuel do
@@ -219,13 +209,13 @@ end --while
 	if turtle.getItemCount(15) > 0 then
 		loc = dig.location()
 		flex.send("Inventory full; returning to home",colors.yellow)
-		goHome()
+		dig.goto(home)
 		dropNotFuel()
 		while turtle.getItemCount(15) > 0 do
 			dropNotFuel()
 		end --while
 		flex.send("Emptied",colors.yellow)
-		dig.gotoy(loc[2])
+		dig.gotoy(log[2])
 		dig.goto(loc)
 	end --if
 end --while
