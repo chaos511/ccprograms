@@ -1,0 +1,247 @@
+os.loadAPI("flex.lua")
+os.loadAPI("dig.lua")
+
+local args = {...}
+if #args < 1 then
+	flex.send("Usage: start sethome home",colors.lightBlue)
+	return
+end --if
+
+
+
+local xHome = 0
+local zHome = 0
+local yHome = 0
+local xmax = nil
+local zmax = nil
+local ymin = nil
+	
+local function goHome()
+  dig.gotoy(xHome)
+  dig.gotoy(zHome)
+  dig.goto(xHome,yHome,zHome,180)
+end
+
+if fs.exists("home.txt") then
+	local homefile = fs.open("home.txt","r")
+	xHome = tonumber(homefile.readLine())
+	yHome = tonumber(homefile.readLine())
+	zHome = tonumber(homefile.readLine())
+	homefile.close()
+
+end --if
+
+if args[1] == "home" then
+	flex.send("Home loaded: "
+	..tostring(xHome)
+	.." , "
+	..tostring(yHome)
+	.." , "
+	..tostring(zHome)
+	)
+	dig.loadCoords()
+	goHome()
+	
+	return
+elseif args[1] == "resume" then
+	flex.send("Home loaded: "
+	..tostring(xHome)
+	.." , "
+	..tostring(yHome)
+	.." , "
+	..tostring(zHome)
+	)
+	dig.loadCoords()
+	xmax = tonumber(args[2])
+	zmax = tonumber(args[3]) or xmax
+	ymin = tonumber(args[4]) or 999
+	flex.send("Home loaded: "
+	..tostring(xHome)
+	.." , "
+	..tostring(yHome)
+	.." , "
+	..tostring(zHome)
+	)
+elseif args[1] == "sethome" then
+	if #args < 4 then
+		flex.send("Usage quarry sethome <x> <y> <z>",colors.lightBlue)
+		return
+	end --if
+	local xHome = tonumber(args[2]) or 0
+	local yHome = tonumber(args[3]) or 0
+	local zHome = tonumber(args[4]) or 0
+	local homefile = fs.open("home.txt","w")
+	homefile.writeLine(tostring(xHome))
+	homefile.writeLine(tostring(yHome))
+	homefile.writeLine(tostring(zHome))
+	homefile.close()
+	flex.send("Home set: "
+	..tostring(xHome)
+	.." , "
+	..tostring(yHome)
+	.." , "
+	..tostring(zHome)
+	)
+	return
+elseif args[1] == "start" then
+	xmax = tonumber(args[2])
+	zmax = tonumber(args[3]) or xmax
+	ymin = tonumber(args[4]) or 999
+	flex.send("Home loaded: "
+	..tostring(xHome)
+	.." , "
+	..tostring(yHome)
+	.." , "
+	..tostring(zHome)
+	)
+else
+	flex.send("Usage: start sethome home ",colors.lightBlue)
+	return
+end 
+
+if xmax == nil or zmax == nil then
+	flex.send("Invalid dimensions: "
+	..tostring(xmax)
+	.." , "
+	..tostring(ymax)
+	.." , "
+	..tostring(zmax)
+	,colors.red)
+	return
+end
+
+
+if fs.exists("startup.lua") and
+	fs.exists("dig_save.txt") then
+	dig.loadCoords()
+end --if
+dig.makeStartup("quarry",args)
+
+
+local function dropNotFuel()
+	flex.condense()
+	local a,x
+	a = false
+	for x=1,16 do
+		turtle.select(x)
+		if turtle.refuel(0) then
+			if a then turtle.drop() end
+				a = true
+			else --if
+			turtle.drop()
+		end --if
+	end --for
+turtle.select(1)
+end --function
+
+
+
+local fuelLevel,requiredFuel,c,x,y,z,r,loc
+local xdir, zdir = 1, 1
+dig.gotox(0)
+dig.gotoz(0)
+dig.gotoy(dig.getYmin())
+local done = false
+
+while not done and not dig.isStuck() do
+	fuelLevel = turtle.getFuelLevel()-1
+	requiredFuel = math.abs(dig.getx())
+	+ math.abs(dig.gety())
+	+ math.abs(dig.getz())*2
+	+ 200
+   	c = true
+
+while fuelLevel <= requiredFuel and c do
+	for x=1,16 do
+		turtle.select(x)
+		if turtle.refuel(1) then
+			break
+		end --if
+		if x == 16 then
+			c = false
+		end --if
+	end --for
+fuelLevel = turtle.getFuelLevel()-1
+end --while
+ 
+ if fuelLevel <= requiredFuel then
+	loc = dig.location()
+	flex.send("Fuel low; returning to home",colors.yellow)
+	goHome()
+	dropNotFuel()
+	flex.send("Waiting for fuel...",colors.orange)
+  while turtle.getFuelLevel()-1 <= requiredFuel do
+   for x=1,16 do
+    turtle.select(x)
+    if turtle.refuel(1) then break end
+   end --for
+  end --while
+  flex.send("Refueled",colors.lime)
+  dig.gotoy(loc[2])
+  dig.goto(loc)
+ end --if
+ 
+	turtle.select(1)
+	if zdir == 1 then
+		dig.gotor(0)
+		while dig.getz() < zmax-1 do
+			dig.fwd()
+			if dig.isStuck() then
+				done = true
+				break
+			end --if
+		end --while
+	elseif zdir == -1 then
+		dig.gotor(180)
+		while dig.getz() > 0 do
+			dig.fwd()
+			if dig.isStuck() then
+				done = true
+				break
+			end --if
+		end --while
+	end --if/else
+ 
+	if done then break end
+ 
+	zdir = -zdir
+ 
+	if dig.getx() == 0 and xdir == -1 then
+		dig.down()
+		xdir = 1
+	elseif dig.getx() == xmax-1 and xdir == 1 then
+		dig.down()
+		xdir = -1
+	else
+		dig.gotox(dig.getx()+xdir)
+	end --if/else
+ 
+	if turtle.getItemCount(15) > 0 then
+		loc = dig.location()
+		flex.send("Inventory full; returning to home",colors.yellow)
+		goHome()
+		dropNotFuel()
+		while turtle.getItemCount(15) > 0 do
+			dropNotFuel()
+		end --while
+		flex.send("Emptied",colors.yellow)
+		dig.gotoy(loc[2])
+		dig.goto(loc)
+	end --if
+end --while
+
+
+goHome()
+for x=1,16 do
+	turtle.select(x)
+	turtle.drop()
+end
+
+turtle.select(1)
+dig.gotor(0)
+
+if fs.exists("startup.lua") then
+	shell.run("rm startup.lua")
+end
+os.unloadAPI("dig.lua")
+os.unloadAPI("flex.lua")
