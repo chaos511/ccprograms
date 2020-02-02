@@ -43,7 +43,7 @@ elseif args[1] == "resume" then
 	dig.loadCoords()
 	xmax = tonumber(args[2])
 	zmax = tonumber(args[3]) or xmax
-	ymin = -tonumber(args[4]) or -256
+	ymin = -(tonumber(args[4]) or 256)
 	flex.send("Home loaded: "
 	..tostring(home[1])
 	.." , "
@@ -53,7 +53,7 @@ elseif args[1] == "resume" then
 	)
 	if fs.exists("home.txt") then
 		loadCoords()
-	elseif 1==1
+	elseif 1==1 then
 		flex.send("Unable to resume quarry",colors.red)
 		return
 	end
@@ -82,7 +82,7 @@ elseif args[1] == "sethome" then
 elseif args[1] == "start" then
 	xmax = tonumber(args[2])
 	zmax = tonumber(args[3]) or xmax
-	ymin = -tonumber(args[4]) or -256
+	ymin = -(tonumber(args[4]) or 256)
 	flex.send("Home loaded: "
 	..tostring(home[1])
 	.." , "
