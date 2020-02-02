@@ -252,7 +252,7 @@ while not done and not dig.isStuck() do
 			dropNotFuel()
 		end --while
 		flex.send("Emptied",colors.yellow)
-		dig.gotoy(log[2])
+		dig.gotoy(loc[2])
 		dig.goto(loc)
 	end --if
 end --while
