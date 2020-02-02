@@ -53,7 +53,7 @@ elseif args[1] == "resume" then
 	)
 	if fs.exists("home.txt") then
 		loadCoords()
-	else
+	elseif 1==1
 		flex.send("Unable to resume quarry",colors.red)
 		return
 	end
