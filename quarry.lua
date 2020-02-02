@@ -43,7 +43,7 @@ elseif args[1] == "resume" then
 	dig.loadCoords()
 	xmax = tonumber(args[2])
 	zmax = tonumber(args[3]) or xmax
-	ymin = tonumber(args[4]) or 999
+	ymin = -tonumber(args[4]) or -256
 	flex.send("Home loaded: "
 	..tostring(home[1])
 	.." , "
@@ -51,6 +51,12 @@ elseif args[1] == "resume" then
 	.." , "
 	..tostring(home[3])
 	)
+	if fs.exists("home.txt") then
+		loadCoords()
+	else
+		flex.send("Unable to resume quarry",colors.red)
+		return
+	end
 elseif args[1] == "sethome" then
 	if #args < 4 then
 		flex.send("Usage quarry sethome <x> <y> <z>",colors.lightBlue)
@@ -76,7 +82,7 @@ elseif args[1] == "sethome" then
 elseif args[1] == "start" then
 	xmax = tonumber(args[2])
 	zmax = tonumber(args[3]) or xmax
-	ymin = tonumber(args[4]) or 999
+	ymin = -tonumber(args[4]) or -256
 	flex.send("Home loaded: "
 	..tostring(xHome)
 	.." , "
@@ -105,7 +111,8 @@ if fs.exists("startup.lua") and
 	fs.exists("dig_save.txt") then
 	dig.loadCoords()
 end --if
-dig.makeStartup("quarry",args)
+
+dig.makeStartup("quarry resume",{})
 
 
 local function dropNotFuel()
@@ -124,10 +131,40 @@ local function dropNotFuel()
 turtle.select(1)
 end --function
 
+local function loadCoords()
+	local file,loc,x
+	quarryfile = fs.open("quarry_save.txt","r")
+	dig.goto(tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()))
+	
+	xmax=tonumber(quarryfile.readLine())
+	ymax=tonumber(quarryfile.readLine())
+	zmax=tonumber(quarryfile.readLine())
+	
+	xdir=tonumber(quarryfile.readLine())
+	zdir=tonumber(quarryfile.readLine())
+	quarryfile.close()
+end
 
+local function saveCoords()
+	local file,loc,x
+	quarryfile = fs.open("quarry_save.txt","w")
+	quarryfile.writeLine(tostring(dig.getx()))
+	quarryfile.writeLine(tostring(dig.gety()))
+	quarryfile.writeLine(tostring(dig.getz()))
+	quarryfile.writeLine(tostring(dig.getr()))
+	
+	quarryfile.writeLine(tostring(xmax))
+	quarryfile.writeLine(tostring(ymax))
+	quarryfile.writeLine(tostring(zmax))
+
+	
+	quarryfile.writeLine(tostring(xdir()))
+	quarryfile.writeLine(tostring(zdir()))
+	quarryfile.close()
+end
 
 local fuelLevel,requiredFuel,c,x,y,z,r,loc
-local xdir, zdir = 1, 1
+local xdir,zdir  = 1, 1
 dig.gotox(0)
 dig.gotoz(0)
 dig.gotoy(dig.getYmin())
@@ -141,36 +178,36 @@ while not done and not dig.isStuck() do
 	+ 200
    	c = true
 
-while fuelLevel <= requiredFuel and c do
-	for x=1,16 do
-		turtle.select(x)
-		if turtle.refuel(1) then
-			break
-		end --if
-		if x == 16 then
-			c = false
-		end --if
-	end --for
-fuelLevel = turtle.getFuelLevel()-1
-end --while
- 
- if fuelLevel <= requiredFuel then
-	loc = dig.location()
-	flex.send("Fuel low; returning to home",colors.yellow)
-	dig.goto(home)
-	dropNotFuel()
-	flex.send("Waiting for fuel...",colors.orange)
-  while turtle.getFuelLevel()-1 <= requiredFuel do
-   for x=1,16 do
-    turtle.select(x)
-    if turtle.refuel(1) then break end
-   end --for
-  end --while
-  flex.send("Refueled",colors.lime)
-  dig.gotoy(loc[2])
-  dig.goto(loc)
- end --if
- 
+	while fuelLevel <= requiredFuel and c do
+		for x=1,16 do
+			turtle.select(x)
+			if turtle.refuel(1) then
+				break
+			end --if
+			if x == 16 then
+				c = false
+			end --if
+		end --for
+		fuelLevel = turtle.getFuelLevel()-1
+	end --while
+
+	if fuelLevel <= requiredFuel then
+		loc = dig.location()
+		flex.send("Fuel low; returning to home",colors.yellow)
+		dig.goto(home)
+		dropNotFuel()
+		flex.send("Waiting for fuel...",colors.orange)
+		while turtle.getFuelLevel()-1 <= requiredFuel do
+			for x=1,16 do
+				turtle.select(x)
+				if turtle.refuel(1) then break end
+			end --for
+		end --while
+		flex.send("Refueled",colors.lime)
+		dig.gotoy(loc[2])
+		dig.goto(loc)
+	end --if
+	 
 	turtle.select(1)
 	if zdir == 1 then
 		dig.gotor(0)
