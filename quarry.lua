@@ -27,6 +27,21 @@ if fs.exists("home.txt") then
 
 end --if
 
+local function loadCoords()
+	local file,loc,x
+	quarryfile = fs.open("quarry_save.txt","r")
+	dig.goto(tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()))
+	
+	xmax=tonumber(quarryfile.readLine())
+	ymax=tonumber(quarryfile.readLine())
+	zmax=tonumber(quarryfile.readLine())
+	
+	xdir=tonumber(quarryfile.readLine())
+	zdir=tonumber(quarryfile.readLine())
+	quarryfile.close()
+end
+
+local function saveCoords()
 if args[1] == "home" then
 	flex.send("Home loaded: "
 	..tostring(home[1])
@@ -41,9 +56,6 @@ if args[1] == "home" then
 	return
 elseif args[1] == "resume" then
 	dig.loadCoords()
-	xmax = tonumber(args[2])
-	zmax = tonumber(args[3]) or xmax
-	ymin = -(tonumber(args[4]) or 256)
 	flex.send("Home loaded: "
 	..tostring(home[1])
 	.." , "
@@ -51,7 +63,7 @@ elseif args[1] == "resume" then
 	.." , "
 	..tostring(home[3])
 	)
-	if fs.exists("home.txt") then
+	if fs.exists("quarry_save.txt") then
 		loadCoords()
 	elseif 1==1 then
 		flex.send("Unable to resume quarry",colors.red)
@@ -131,21 +143,7 @@ local function dropNotFuel()
 turtle.select(1)
 end --function
 
-local function loadCoords()
-	local file,loc,x
-	quarryfile = fs.open("quarry_save.txt","r")
-	dig.goto(tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()))
-	
-	xmax=tonumber(quarryfile.readLine())
-	ymax=tonumber(quarryfile.readLine())
-	zmax=tonumber(quarryfile.readLine())
-	
-	xdir=tonumber(quarryfile.readLine())
-	zdir=tonumber(quarryfile.readLine())
-	quarryfile.close()
-end
 
-local function saveCoords()
 	local file,loc,x
 	quarryfile = fs.open("quarry_save.txt","w")
 	quarryfile.writeLine(tostring(dig.getx()))

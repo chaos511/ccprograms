@@ -1,4 +1,5 @@
 --Misc Useful Functions
+--Orignal code from user flexico on the computercraft forums http://www.computercraft.info/forums2/index.php?/topic/29859-excavate-except-it-recovers-after-reboot/
 --Flexico64@gmail.com
 
 
