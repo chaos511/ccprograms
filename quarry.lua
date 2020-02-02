@@ -165,9 +165,9 @@ end
 
 local fuelLevel,requiredFuel,c,x,y,z,r,loc
 local xdir,zdir  = 1, 1
-dig.gotox(0)
-dig.gotoz(0)
-dig.gotoy(dig.getYmin())
+--dig.gotox(0)
+--dig.gotoz(0)
+--dig.gotoy(dig.getYmin())
 local done = false
 
 while not done and not dig.isStuck() do
@@ -242,7 +242,8 @@ while not done and not dig.isStuck() do
 	else
 		dig.gotox(dig.getx()+xdir)
 	end --if/else
- 
+	saveCoords()
+	
 	if turtle.getItemCount(15) > 0 then
 		loc = dig.location()
 		flex.send("Inventory full; returning to home",colors.yellow)
