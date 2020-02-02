@@ -259,7 +259,7 @@ while not done and not dig.isStuck() do
 end --while
 
 
-goHome()
+dig.goto(home)
 for x=1,16 do
 	turtle.select(x)
 	turtle.drop()
