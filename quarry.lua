@@ -62,9 +62,9 @@ elseif args[1] == "sethome" then
 		flex.send("Usage quarry sethome <x> <y> <z>",colors.lightBlue)
 		return
 	end --if
-	local home[1] = tonumber(args[2]) or 0
-	local home[2] = tonumber(args[3]) or 0
-	local home[3] = tonumber(args[4]) or 0
+	home[1] = tonumber(args[2]) or 0
+	home[2] = tonumber(args[3]) or 0
+	home[3] = tonumber(args[4]) or 0
 	local homefile = fs.open("home.txt","w")
 	for x=1,#loc do
 		homefile.writeLine(tostring(home[x]))
@@ -72,11 +72,11 @@ elseif args[1] == "sethome" then
 	homefile.close()
 
 	flex.send("Home set: "
-	..tostring(xHome)
+	..tostring(home[1])
 	.." , "
-	..tostring(yHome)
+	..tostring(home[2])
 	.." , "
-	..tostring(zHome)
+	..tostring(home[3])
 	)
 	return
 elseif args[1] == "start" then
@@ -84,11 +84,11 @@ elseif args[1] == "start" then
 	zmax = tonumber(args[3]) or xmax
 	ymin = -tonumber(args[4]) or -256
 	flex.send("Home loaded: "
-	..tostring(xHome)
+	..tostring(home[1])
 	.." , "
-	..tostring(yHome)
+	..tostring(home[2])
 	.." , "
-	..tostring(zHome)
+	..tostring(home[3])
 	)
 else
 	flex.send("Usage: start sethome home ",colors.lightBlue)
