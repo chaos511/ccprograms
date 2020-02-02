@@ -14,7 +14,8 @@ local home = {}
 local xmax = nil
 local zmax = nil
 local ymin = nil
-	
+local fuelLevel,requiredFuel,c,x,y,z,r,loc
+local xdir,zdir  = 1, 1	
 
 if fs.exists("home.txt") then
 	local homefile = fs.open("home.txt","r")
@@ -53,8 +54,8 @@ local function saveCoords()
 	quarryfile.writeLine(tostring(zmax))
 
 	
-	quarryfile.writeLine(tostring(xdir()))
-	quarryfile.writeLine(tostring(zdir()))
+	quarryfile.writeLine(tostring(xdir))
+	quarryfile.writeLine(tostring(zdir))
 	quarryfile.close()
 end
 
@@ -93,7 +94,7 @@ elseif args[1] == "sethome" then
 	home[2] = tonumber(args[3]) or 0
 	home[3] = tonumber(args[4]) or 0
 	local homefile = fs.open("home.txt","w")
-	for x=1,#loc do
+	for x=1,#home do
 		homefile.writeLine(tostring(home[x]))
 	end --for
 	homefile.close()
@@ -162,8 +163,7 @@ end --function
 	local file,loc,x
 
 
-local fuelLevel,requiredFuel,c,x,y,z,r,loc
-local xdir,zdir  = 1, 1
+
 --dig.gotox(0)
 --dig.gotoz(0)
 --dig.gotoy(dig.getYmin())
