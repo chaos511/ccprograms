@@ -42,6 +42,22 @@ local function loadCoords()
 end
 
 local function saveCoords()
+	quarryfile = fs.open("quarry_save.txt","w")
+	quarryfile.writeLine(tostring(dig.getx()))
+	quarryfile.writeLine(tostring(dig.gety()))
+	quarryfile.writeLine(tostring(dig.getz()))
+	quarryfile.writeLine(tostring(dig.getr()))
+	
+	quarryfile.writeLine(tostring(xmax))
+	quarryfile.writeLine(tostring(ymax))
+	quarryfile.writeLine(tostring(zmax))
+
+	
+	quarryfile.writeLine(tostring(xdir()))
+	quarryfile.writeLine(tostring(zdir()))
+	quarryfile.close()
+end
+
 if args[1] == "home" then
 	flex.send("Home loaded: "
 	..tostring(home[1])
@@ -52,7 +68,6 @@ if args[1] == "home" then
 	)
 	dig.loadCoords()
 	dig.goto(home)
-	
 	return
 elseif args[1] == "resume" then
 	dig.loadCoords()
@@ -145,21 +160,7 @@ end --function
 
 
 	local file,loc,x
-	quarryfile = fs.open("quarry_save.txt","w")
-	quarryfile.writeLine(tostring(dig.getx()))
-	quarryfile.writeLine(tostring(dig.gety()))
-	quarryfile.writeLine(tostring(dig.getz()))
-	quarryfile.writeLine(tostring(dig.getr()))
-	
-	quarryfile.writeLine(tostring(xmax))
-	quarryfile.writeLine(tostring(ymax))
-	quarryfile.writeLine(tostring(zmax))
 
-	
-	quarryfile.writeLine(tostring(xdir()))
-	quarryfile.writeLine(tostring(zdir()))
-	quarryfile.close()
-end
 
 local fuelLevel,requiredFuel,c,x,y,z,r,loc
 local xdir,zdir  = 1, 1
