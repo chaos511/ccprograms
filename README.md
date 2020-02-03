@@ -9,11 +9,11 @@ Configurable home location (with sethome)
 
 TODO: Auto attack entities when stuck(with setautoattack)
 
-TODO: fill water and lava with configurable block (with setautofill)
+TODO: fill water and lava with a configurable block (with setautofill)
 
 TODO: Suck fuel from chest adjacent to home (with setautofuel)
 
-TODO: Auto drop blocks of specifig type (with setautodrop)
+TODO: Auto drop blocks of specific type (with setautodrop)
 
  # Installation
 To install or update use command:
