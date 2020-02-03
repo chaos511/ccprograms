@@ -7,7 +7,7 @@ Return to home and stops when detects unbreakable block (Bedrock)
   
 Configurable home location (with sethome)
 
-TODO: Auto attack (with setautoattack)
+TODO: Auto attack entities when stuck(with setautoattack)
 
 TODO: Auto fill water and lava (with autofill)
  # Installation
