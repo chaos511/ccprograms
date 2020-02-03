@@ -25,3 +25,6 @@ To install or update use command:
  ## Set home for refuling and unloading
  `yatqp sethome <x> <y> <z>`
   coordinates are relative to the position of the turtle
+ ## Resume if terminated
+ `yatqp resume`
+
