@@ -9,7 +9,12 @@ Configurable home location (with sethome)
 
 TODO: Auto attack entities when stuck(with setautoattack)
 
-TODO: Auto fill water and lava (with autofill)
+TODO: fill water and lava with configurable block (with setautofill)
+
+TODO: Suck fuel from chest adjacent to home (with setautofuel)
+
+TODO: Auto drop blocks of specifig type (with setautodrop)
+
  # Installation
 To install or update use command:
 `wget run https://raw.githubusercontent.com/chaos511/ccprograms/master/update.lua`
