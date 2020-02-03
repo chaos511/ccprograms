@@ -17,8 +17,8 @@ local ymin = nil
 local fuelLevel,requiredFuel,c,x,y,z,r,loc
 local xdir,zdir  = 1, 1	
 
-if fs.exists("home.txt") then
-	local homefile = fs.open("home.txt","r")
+if fs.exists("quarry_home.txt") then
+	local homefile = fs.open("quarry_home.txt","r")
 	home[1] = tonumber(homefile.readLine())
 	home[2] = tonumber(homefile.readLine())
 	home[3] = tonumber(homefile.readLine())
@@ -67,7 +67,9 @@ if args[1] == "home" then
 	.." , "
 	..tostring(home[3])
 	)
-	dig.loadCoords()
+	fs.exists("dig_save.txt") then
+		dig.loadCoords()
+	end
 	dig.goto(home)
 	return
 elseif args[1] == "resume" then
@@ -93,7 +95,7 @@ elseif args[1] == "sethome" then
 	home[1] = tonumber(args[2]) or 0
 	home[2] = tonumber(args[3]) or 0
 	home[3] = tonumber(args[4]) or 0
-	local homefile = fs.open("home.txt","w")
+	local homefile = fs.open("quarry_home.txt","w")
 	for x=1,#home do
 		homefile.writeLine(tostring(home[x]))
 	end --for
