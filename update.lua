@@ -1,6 +1,6 @@
-shell.run("delete quarry.lua")
+shell.run("delete yatqp.lua")
 shell.run("delete flex.lua")
 shell.run("delete dig.lua")
-shell.run("wget https://raw.githubusercontent.com/chaos511/ccprograms/master/quarry.lua  yatqp.lua")
+shell.run("wget https://raw.githubusercontent.com/chaos511/ccprograms/master/quarry.lua yatqp.lua")
 shell.run("wget https://raw.githubusercontent.com/chaos511/ccprograms/master/flex.lua flex.lua")
 shell.run("wget https://raw.githubusercontent.com/chaos511/ccprograms/master/dig.lua dig.lua")
