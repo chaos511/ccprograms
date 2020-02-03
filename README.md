@@ -11,7 +11,8 @@ TODO: Auto attack entities when stuck(with setautoattack)
 
 TODO: Auto fill water and lava (with autofill)
  # Installation
-To install or update use command `wget run https://raw.githubusercontent.com/chaos511/ccprograms/master/update.lua`
+To install or update use command:
+`wget run https://raw.githubusercontent.com/chaos511/ccprograms/master/update.lua`
 
  # Usage
   TODO:
