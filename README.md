@@ -20,4 +20,8 @@ To install or update use command:
 `wget run https://raw.githubusercontent.com/chaos511/ccprograms/master/update.lua`
 
  # Usage
-  TODO:
+ ## Start the quarry program
+  `yatqp start <x> [z] [depth]`
+ ## Set home for refuling and unloading
+ `yatqp sethome <x> <y> <z>`
+  coordinates are relative to the position of the turtle
