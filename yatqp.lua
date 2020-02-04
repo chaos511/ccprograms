@@ -67,7 +67,7 @@ if args[1] == "home" then
 	.." , "
 	..tostring(home[3])
 	)
-	fs.exists("dig_save.txt") then
+	if fs.exists("dig_save.txt") then
 		dig.loadCoords()
 	end
 	dig.goto(home)
