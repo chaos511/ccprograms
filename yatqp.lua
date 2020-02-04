@@ -142,7 +142,7 @@ if fs.exists("startup.lua") and
 	dig.loadCoords()
 end --if
 
-dig.makeStartup("quarry resume",{})
+dig.makeStartup("yatqp resume",{})
 
 
 local function dropNotFuel()
