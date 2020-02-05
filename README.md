@@ -13,7 +13,6 @@ TODO: Auto attack entities when stuck(with setautoattack)
 
 TODO: fill water and lava with a configurable block (with setautofill)
 
-
 TODO: Auto drop blocks of specific type (with setautodrop)
 
  # Installation
@@ -32,7 +31,7 @@ To install or update use command: <br />
  `yatqp sethome <x> <y> <z>`
   
  ## Resume 
- Resume the quary with the last saved settings and positone (used for autostart)
+ Resume the quary with the last saved settings and position (used for autostart)
 
  `yatqp resume`
 

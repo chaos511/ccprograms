@@ -228,8 +228,8 @@ while not done and not dig.isStuck() do
 					if turtle.getItemCount(x)==0 then
 					
 						local suck
-						if autofuel == "up"    then     suck=turtle.suck(64)
-						elseif autofuel == "down"  then suck=turtle.suck(64) 
+						if autofuel == "up"    then     suck=turtle.suckUp(64)
+						elseif autofuel == "down"  then suck=turtle.suckDown(64) 
 						else
 							suck=turtle.suck(64)
 						end
