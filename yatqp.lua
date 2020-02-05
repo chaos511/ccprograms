@@ -10,7 +10,7 @@ end --if
 
 
 local home = {}
-
+local autofuel= "false"
 local xmax = nil
 local zmax = nil
 local ymin = nil
@@ -59,7 +59,7 @@ local function saveCoords()
 	quarryfile.close()
 end
 
-if args[1] == "home" then
+if args[1] == "home" then					--home
 	flex.send("Home loaded: "
 	..tostring(home[1])
 	.." , "
@@ -72,7 +72,7 @@ if args[1] == "home" then
 	end
 	dig.goto(home)
 	return
-elseif args[1] == "resume" then
+elseif args[1] == "resume" then				--resume
 	dig.loadCoords()
 	flex.send("Home loaded: "
 	..tostring(home[1])
@@ -87,7 +87,7 @@ elseif args[1] == "resume" then
 		flex.send("Unable to resume quarry",colors.red)
 		return
 	end
-elseif args[1] == "sethome" then
+elseif args[1] == "sethome" then			--sethome
 	if #args < 4 then
 		flex.send("Usage quarry sethome <x> <y> <z>",colors.lightBlue)
 		return
@@ -108,6 +108,18 @@ elseif args[1] == "sethome" then
 	.." , "
 	..tostring(home[3])
 	)
+	return
+elseif args[1] == "setautofuel" then			--setautofuel
+	if #args < 4 then
+		flex.send("Usage: setautofuel <top,bottom,front,back,left,right,false>",colors.lightBlue)
+		return
+	end --if
+	local homefile = fs.open("quarry_settings.txt","w")
+	autofuel=args[2] or "false"
+	homefile.writeLine(autofuel)
+	homefile.close()
+
+	flex.send("Auto Fuel Set: "..autofuel)
 	return
 elseif args[1] == "start" then
 	xmax = tonumber(args[2])
@@ -166,9 +178,6 @@ end --function
 
 
 
---dig.gotox(0)
---dig.gotoz(0)
---dig.gotoy(dig.getYmin())
 local done = false
 
 while not done and not dig.isStuck() do
@@ -192,7 +201,7 @@ while not done and not dig.isStuck() do
 		fuelLevel = turtle.getFuelLevel()-1
 	end --while
 
-	if fuelLevel <= requiredFuel then
+	if fuelLevel <= requiredFuel then			-- refuel
 		loc = dig.location()
 		flex.send("Fuel low; returning to home",colors.yellow)
 		dig.goto(home)
@@ -203,11 +212,40 @@ while not done and not dig.isStuck() do
 				turtle.select(x)
 				if turtle.refuel(1) then break end
 			end --for
+
+			local rotate = nil
+			if autofuel == "front" then rotate=180 end
+			if autofuel == "back"  then rotate=0   end
+			if autofuel == "left"  then rotate=90  end
+			if autofuel == "right" then rotate=270 end
+			if autofuel == "up"    then rotate=180 end
+			if autofuel == "down"  then rotate=180 end
+
+			if rotate ~= nil then
+				dig.gotor(rotate)
+				for x=1,16 do
+					turtle.select(x)
+					if turtle.getItemCount(x)==0 then
+					
+						local suck
+						if autofuel == "up"    then     suck=turtle.suck(64)
+						elseif autofuel == "down"  then suck=turtle.suck(64) 
+						else
+							suck=turtle.suck(64)
+						end
+						
+						if suck==true then break end
+						
+					end
+				end
+
+			end
+			
 		end --while
 		flex.send("Refueled",colors.lime)
 		dig.gotoy(loc[2])
 		dig.goto(loc)
-	end --if
+	end 												--end refuel
 	 
 	turtle.select(1)
 	if zdir == 1 then
