@@ -1,6 +1,6 @@
 -- This is an API for digging and
 -- keeping track of motion
---Orignal code from user flexico on the computercraft forums http://www.computercraft.info/forums2/index.php?/topic/29859-excavate-except-it-recovers-after-reboot/
+-- Orignal code from user flexico on the computercraft forums http://www.computercraft.info/forums2/index.php?/topic/29859-excavate-except-it-recovers-after-reboot/
 -- Flexico64@gmail.com
 
 -- x is right, y is up, z is forward
