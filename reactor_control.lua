@@ -1,4 +1,4 @@
--- https://pastebin.com/8VCPNu3a
+-- https://pastebin.com/qqEuV9nj
 -- made by chaos511
 
 local controlRodLevel=100

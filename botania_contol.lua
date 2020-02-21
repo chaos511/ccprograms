@@ -1,4 +1,4 @@
--- https://pastebin.com/MdB3MCiY
+-- https://pastebin.com/i217McUC
 -- made by chaos511
 local outputmode="clock"
 local clockTime=15
