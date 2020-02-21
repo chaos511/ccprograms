@@ -3,3 +3,4 @@ v 0.1.0 add autofuel
 v 0.1.1 fix of position
 v 0.2.0 add spawner_control, botania_control and fill
 v 0.2.1 fix clock outputmode in spawner_control
+v 0.2.2 change reactor_control to use displayStatus() and updateDisplay()
