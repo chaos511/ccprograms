@@ -1,6 +1,6 @@
 os.loadAPI("flex.lua")
 os.loadAPI("dig.lua")
-
+local home = {}
 local args = {...}
 if #args < 3 then
     flex.send("Usage sethome <x> <y> <z>",colors.lightBlue)
