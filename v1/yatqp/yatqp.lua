@@ -70,13 +70,13 @@ if args[1] == "resume" then				--resume
 	)
 	if fs.exists("quarry_save.txt") then
 		loadCoords()
-	else then
+	elseif 1==1 then
 		flex.send("Unable to resume quarry",colors.red)
 		return
 	end
 elseif args[1] == "start" then
 	if fs.exists("quarry_save.txt") then
-	else then
+	elseif 1==1 then
 		os.shell("setboundingbox 10 10")
 	end
 	loadCoords()
@@ -88,7 +88,7 @@ elseif args[1] == "start" then
 	..tostring(home[3])
 	)
 else
-	flex.send("Usage: start sethome home ",colors.lightBlue)
+	flex.send("Usage: start",colors.lightBlue)
 	return
 end 
 
@@ -100,7 +100,7 @@ if fs.exists("startup.lua") and
 	dig.loadCoords()
 end --if
 
-dig.makeStartup("go resume",{})
+dig.makeStartup("yatqp resume",{})
 
 
 local function dropNotFuel()

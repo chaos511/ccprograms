@@ -4,6 +4,7 @@ shell.run("delete home.lua")
 shell.run("delete sethome.lua")
 shell.run("delete help.lua")
 shell.run("delete setboundingbox.lua")
+shell.run("delete yatqp.lua")
 
 -- shell.run("mkdir lib")
 shell.run("wget https://raw.githubusercontent.com/chaos511/ccprograms/master/v1/yatqp/home.lua home.lua")
@@ -12,3 +13,4 @@ shell.run("wget https://raw.githubusercontent.com/chaos511/ccprograms/master/v1/
 shell.run("wget https://raw.githubusercontent.com/chaos511/ccprograms/master/v1/yatqp/dig.lua dig.lua")
 shell.run("wget https://raw.githubusercontent.com/chaos511/ccprograms/master/v1/yatqp/help.lua help.lua")
 shell.run("wget https://raw.githubusercontent.com/chaos511/ccprograms/master/v1/yatqp/setboundingbox.lua setboundingbox.lua")
+shell.run("wget https://raw.githubusercontent.com/chaos511/ccprograms/master/v1/yatqp/yatqp.lua yatqp.lua")
