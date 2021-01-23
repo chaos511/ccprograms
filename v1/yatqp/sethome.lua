@@ -1,6 +1,7 @@
 os.loadAPI("flex.lua")
 os.loadAPI("dig.lua")
 
+local args = {...}
 if #args < 3 then
     flex.send("Usage quarry sethome <x> <y> <z>",colors.lightBlue)
     return
