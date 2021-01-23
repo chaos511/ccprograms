@@ -4,9 +4,9 @@ os.loadAPI("dig.lua")
 if fs.exists("quarry_home.txt") then
 else
 	shell.run("sethome.lua 0 0 0")
-	return
 end 
 
+local home = {}
 local homefile = fs.open("quarry_home.txt","r")
 home[1] = tonumber(homefile.readLine())
 home[2] = tonumber(homefile.readLine())

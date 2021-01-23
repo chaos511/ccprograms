@@ -3,12 +3,12 @@ os.loadAPI("dig.lua")
 
 local args = {...}
 if #args < 3 then
-    flex.send("Usage quarry sethome <x> <y> <z>",colors.lightBlue)
+    flex.send("Usage sethome <x> <y> <z>",colors.lightBlue)
     return
 end --if
-home[1] = tonumber(args[2]) or 0
-home[2] = tonumber(args[3]) or 0
-home[3] = tonumber(args[4]) or 0
+home[1] = tonumber(args[1]) or 0
+home[2] = tonumber(args[2]) or 0
+home[3] = tonumber(args[3]) or 0
 local homefile = fs.open("quarry_home.txt","w")
 for x=1,#home do
     homefile.writeLine(tostring(home[x]))
