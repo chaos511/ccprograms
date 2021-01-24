@@ -18,6 +18,10 @@ local fuelLevel,requiredFuel,c,x,y,z,r,loc
 local xdir,zdir  = 1, 1	
 
 if fs.exists("quarry_home.txt") then
+elseif 1==1 then
+shell.run("sethome 0 0 0")
+end
+
 	local homefile = fs.open("quarry_home.txt","r")
 	home[1] = tonumber(homefile.readLine())
 	home[2] = tonumber(homefile.readLine())
@@ -25,8 +29,6 @@ if fs.exists("quarry_home.txt") then
 	home[4] = 180
 	home[5] = "?"
 	homefile.close()
-
-end --if
 
 local function loadCoords()
 	local file,loc,x
