@@ -22,4 +22,4 @@ flex.send("Home set: "
 .." , "
 ..tostring(home[3])
 )
-return
+os.shell("rm dig_save.txt")
