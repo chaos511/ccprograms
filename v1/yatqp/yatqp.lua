@@ -23,6 +23,13 @@ if fs.exists("quarry_home.txt") then
 elseif 1==1 then
 shell.run("sethome 0 0 0")
 end
+if fs.exists("quarry_settings.txt") then
+	local settings = fs.open("quarry_settings.txt","r")
+	autofuel = tonumber(homefile.readLine())
+	flex.send(autofuel)
+	flex.send(autofuel=="up")
+	homefile.close()
+end
 
 	local homefile = fs.open("quarry_home.txt","r")
 	home[1] = tonumber(homefile.readLine())
@@ -36,8 +43,8 @@ local function loadCoords()
 	local file,loc,x
 	if fs.exists("quarry_offset.txt") then
 		offsetfile = fs.open("quarry_offset.txt","r")
-		xoffset=tonumber(quarryfile.readLine())
-		zoffset=tonumber(quarryfile.readLine())
+		xoffset=tonumber(offsetfile.readLine())
+		zoffset=tonumber(offsetfile.readLine())
 	end
 	quarryfile = fs.open("quarry_save.txt","r")
 
