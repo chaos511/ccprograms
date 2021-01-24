@@ -30,6 +30,11 @@ if xmax == nil or zmax == nil then
 	return
 end
 
+quarryfile = fs.open("quarry_offset.txt","w")
+quarryfile.writeLine(tostring(xoffset))
+quarryfile.writeLine(tostring(zoffset))
+quarryfile.close()
+
 
 quarryfile = fs.open("quarry_save.txt","w")
 quarryfile.writeLine(tostring(xoffset))
@@ -45,4 +50,4 @@ quarryfile.writeLine(tostring(zmax))
 quarryfile.writeLine(tostring(1))
 quarryfile.writeLine(tostring(1))
 quarryfile.close()
-os.shell("rm dig_save.txt")
+shell.run("rm dig_save.txt")

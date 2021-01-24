@@ -14,6 +14,8 @@ local autofuel= "false"
 local xmax = nil
 local zmax = nil
 local ymin = nil
+local xoffset=0
+local zoffset=0
 local fuelLevel,requiredFuel,c,x,y,z,r,loc
 local xdir,zdir  = 1, 1	
 
@@ -32,7 +34,13 @@ end
 
 local function loadCoords()
 	local file,loc,x
+	if fs.exists("quarry_offset.txt") then
+		offsetfile = fs.open("quarry_offset.txt","r")
+		xoffset=tonumber(quarryfile.readLine())
+		zoffset=tonumber(quarryfile.readLine())
+	end
 	quarryfile = fs.open("quarry_save.txt","r")
+
 	dig.goto(tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()),tonumber(quarryfile.readLine()))
 	
 	xmax=tonumber(quarryfile.readLine())
@@ -198,7 +206,7 @@ while not done and not dig.isStuck() do
 	turtle.select(1)
 	if zdir == 1 then
 		dig.gotor(0)
-		while dig.getz() < zmax-1 do
+		while dig.getz()-zoffset < zmax-1 do
 			dig.fwd()
 			if dig.isStuck() then
 				done = true
@@ -207,7 +215,7 @@ while not done and not dig.isStuck() do
 		end --while
 	elseif zdir == -1 then
 		dig.gotor(180)
-		while dig.getz() > 0 do
+		while dig.getz()-zoffset > 0 do
 			dig.fwd()
 			if dig.isStuck() then
 				done = true
@@ -220,10 +228,10 @@ while not done and not dig.isStuck() do
  
 	zdir = -zdir
  
-	if dig.getx() == 0 and xdir == -1 then
+	if dig.getx()-xoffset == 0 and xdir == -1 then
 		dig.down()
 		xdir = 1
-	elseif dig.getx() == xmax-1 and xdir == 1 then
+	elseif dig.getx()-xoffset == xmax-1 and xdir == 1 then
 		dig.down()
 		xdir = -1
 	else
