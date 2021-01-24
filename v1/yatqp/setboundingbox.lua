@@ -3,7 +3,7 @@ os.loadAPI("dig.lua")
 
 local args = {...}
 if #args < 3 then
-    flex.send("Usage setboundingbox <x> <y> <z> <offsetx> <offsety>",colors.lightBlue)
+    flex.send("Usage setboundingbox <x> <y> <z> <offsetx> <zoffset>",colors.lightBlue)
     return
 end --if
 
@@ -12,12 +12,12 @@ local xmax = nil
 local zmax = nil
 local ymin = nil
 local xoffset = nil
-local yoffset = nil
+local zoffset = nil
 xmax = tonumber(args[1])
 zmax = tonumber(args[2]) or xmax
 ymin = -(tonumber(args[3]) or 256)
 xoffset=tonumber(args[4]) or 0
-yoffset=tonumber(args[5]) or 0
+zoffset=tonumber(args[5]) or 0
 
 if xmax == nil or zmax == nil then
 	flex.send("Invalid dimensions: "
@@ -31,9 +31,9 @@ if xmax == nil or zmax == nil then
 end
 
 quarryfile = fs.open("quarry_save.txt","w")
-quarryfile.writeLine(xoffset))
-quarryfile.writeLine(yoffset)
-quarryfile.writeLine(tostring(dig.getz()))
+quarryfile.writeLine(tostring(xoffset))
+quarryfile.writeLine(tostring(dig.gety()))
+quarryfile.writeLine(tostring(zoffset))
 quarryfile.writeLine(tostring(dig.getr()))
 
 quarryfile.writeLine(tostring(xmax))
