@@ -25,10 +25,11 @@ shell.run("sethome 0 0 0")
 end
 if fs.exists("quarry_settings.txt") then
 	local settings = fs.open("quarry_settings.txt","r")
-	autofuel = tonumber(homefile.readLine())
+	autofuel = settings.readLine()
+	-- //tonumber(homefile.readLine())
 	flex.send(autofuel)
 	flex.send(autofuel=="up")
-	homefile.close()
+	settings.close()
 end
 
 	local homefile = fs.open("quarry_home.txt","r")
