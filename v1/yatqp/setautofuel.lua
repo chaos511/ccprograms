@@ -1,5 +1,5 @@
 local args = {...}
-if #args < 2 then
+if #args < 1 then
     flex.send("Usage: setautofuel <top,bottom,front,back,left,right,false>",colors.lightBlue)
     return
 end --if
